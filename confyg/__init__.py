@@ -107,7 +107,7 @@ def attributes_values(obj):
     ))
 
 
-def config_attributes_values(obj):
+def confyg_attributes_values(obj):
     """
     Returns a list of (attribute, value) tuples that we
     consider to be keys for a Confyg class. For now
@@ -132,7 +132,7 @@ class Confyg(object):
 
         cls.__config_store__ = cls.load_store()
 
-        for k, vk in config_attributes_values(cls):
+        for k, vk in confyg_attributes_values(cls):
             v = cls.get(vk)
             cls.set(k, v)
 

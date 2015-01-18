@@ -1,5 +1,5 @@
 from unittest import TestCase
-from confyg import attributes_values
+from confyg import attributes_values, confyg_attributes_values
 
 
 class A(object):
@@ -28,4 +28,12 @@ class TestIterAttributes(TestCase):
         self.assertEquals(
             attrs,
             [('I', None), ('J', None), ('x', True)]
+        )
+
+    def test_confyg_attributes_values(self):
+        attrs = sorted(confyg_attributes_values(A))
+
+        self.assertEquals(
+            attrs,
+            [('I', None), ('J', None)]
         )
