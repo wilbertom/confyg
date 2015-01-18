@@ -85,7 +85,7 @@ to find the configuration values.
 The `__config_store__` holds the serialized key values
 after being loaded from the `__source__`.
 
-New sources should only have to override the `load_store` method.
+New Confyg subclasses should only have to override the `load_store` method.
 This method should return a dictionary like object. If so
 the default `get` and `set` methods should work fine.
 
@@ -98,16 +98,31 @@ import os
 
 
 def attributes(obj):
-    return list(sorted(filter(
-        lambda k: not k.startswith('__'), obj.__dict__.keys()
-    )))
+    """
+    Returns a list of attributes for the object obj. Only
+    public attributes are returned.
+
+    """
+    return list(map(lambda av: av[0], attributes_values(obj)))
 
 
 def attributes_values(obj):
-    return list(map(lambda a: (a, getattr(obj, a)), attributes(obj)))
+    """
+    Returns a list of (attribute, value) tuples for obj.
+
+    """
+    return list(filter(
+        lambda kv: not kv[0].startswith('_'), obj.__dict__.items()
+    ))
 
 
 def config_attributes_values(obj):
+    """
+    Returns a list of (attribute, value) tuples that we
+    consider to be keys for a Confyg class. For now
+    these are the ones that upper cased.
+
+    """
     return list(filter(lambda av: av[0].isupper(), attributes_values(obj)))
 
 

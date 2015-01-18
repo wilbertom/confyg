@@ -15,7 +15,7 @@ class A(object):
 class TestIterAttributes(TestCase):
 
     def test_attributes_cls(self):
-        attrs = attributes(A)
+        attrs = sorted(attributes(A))
 
         self.assertEquals(
             attrs,
@@ -23,14 +23,14 @@ class TestIterAttributes(TestCase):
         )
 
     def test_attributes_instance(self):
-        attrs = attributes(A())
+        attrs = sorted(attributes(A()))
         self.assertEquals(
             attrs,
             ['i', 'j']
         )
 
     def test_attributes_values_instance(self):
-        attrs = attributes_values(A())
+        attrs = sorted(attributes_values(A()))
 
         self.assertEquals(
             attrs,
@@ -38,7 +38,7 @@ class TestIterAttributes(TestCase):
         )
 
     def test_attributes_values_cls(self):
-        attrs = attributes_values(A)
+        attrs = sorted(attributes_values(A))
 
         self.assertEquals(
             attrs,
