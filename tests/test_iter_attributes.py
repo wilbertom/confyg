@@ -1,5 +1,5 @@
 from unittest import TestCase
-from confyg import attributes, attributes_values
+from confyg import attributes_values
 
 
 class A(object):
@@ -13,21 +13,6 @@ class A(object):
 
 
 class TestIterAttributes(TestCase):
-
-    def test_attributes_cls(self):
-        attrs = sorted(attributes(A))
-
-        self.assertEquals(
-            attrs,
-            ['I', 'J', 'x']
-        )
-
-    def test_attributes_instance(self):
-        attrs = sorted(attributes(A()))
-        self.assertEquals(
-            attrs,
-            ['i', 'j']
-        )
 
     def test_attributes_values_instance(self):
         attrs = sorted(attributes_values(A()))

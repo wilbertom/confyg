@@ -97,15 +97,6 @@ import json
 import os
 
 
-def attributes(obj):
-    """
-    Returns a list of attributes for the object obj. Only
-    public attributes are returned.
-
-    """
-    return list(map(lambda av: av[0], attributes_values(obj)))
-
-
 def attributes_values(obj):
     """
     Returns a list of (attribute, value) tuples for obj.
