@@ -5,6 +5,7 @@ from confyc import attributes, attributes_values
 class A(object):
     I = None
     J = None
+    x = True
 
     def __init__(self):
         self.i = None
@@ -18,7 +19,7 @@ class TestIterAttributes(TestCase):
 
         self.assertEquals(
             attrs,
-            ['I', 'J']
+            ['I', 'J', 'x']
         )
 
     def test_attributes_instance(self):
@@ -41,5 +42,5 @@ class TestIterAttributes(TestCase):
 
         self.assertEquals(
             attrs,
-            [('I', None), ('J', None)]
+            [('I', None), ('J', None), ('x', True)]
         )

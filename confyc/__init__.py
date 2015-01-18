@@ -2,6 +2,7 @@
 
 """
 import json
+import os
 
 
 def attributes(obj):
@@ -14,6 +15,10 @@ def attributes_values(obj):
     return list(map(lambda a: (a, getattr(obj, a)), attributes(obj)))
 
 
+def config_attributes_values(obj):
+    return list(filter(lambda av: av[0].isupper(), attributes_values(obj)))
+
+
 class Confyg(object):
 
     __source__ = None
@@ -24,17 +29,17 @@ class Confyg(object):
 
         cls.__config_store__ = cls.load_store()
 
-        for k, vk in attributes_values(cls):
+        for k, vk in config_attributes_values(cls):
             v = cls.get(vk)
             cls.set(k, v)
 
     @classmethod
     def load_store(cls):
-        raise NotImplementedError('load_store needs to be implemented')
+        return {}
 
     @classmethod
     def get(cls, key):
-        raise NotImplementedError('get needs to be implemented')
+        return cls.__config_store__[key]
 
     @classmethod
     def set(cls, key, val):
@@ -48,8 +53,16 @@ class JsonConfyg(Confyg):
         with open(cls.__source__, 'r') as f:
             return json.load(f)
 
+
+class OsConfyg(Confyg):
+
+    upper_cased = True
+
+    @classmethod
+    def load_store(cls):
+        return os.environ
+
     @classmethod
     def get(cls, key):
-        return cls.__config_store__[key]
-
+        return cls.__config_store__[key.upper() if cls.upper_cased else key]
 
