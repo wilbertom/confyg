@@ -65,4 +65,3 @@ class OsConfyg(Confyg):
     @classmethod
     def get(cls, key):
         return cls.__config_store__[key.upper() if cls.upper_cased else key]
-

@@ -1,5 +1,5 @@
 from unittest import TestCase
-from confyc import attributes, attributes_values
+from confyg import attributes, attributes_values
 
 
 class A(object):

@@ -1,6 +1,6 @@
 
 from unittest import TestCase
-from confyc import OsConfyg
+from confyg import OsConfyg
 import os
 
 os.environ['URL'] = 'localhost'

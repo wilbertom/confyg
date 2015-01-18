@@ -1,5 +1,5 @@
 
-from confyc import JsonConfyg
+from confyg import JsonConfyg
 from unittest import TestCase
 
 
