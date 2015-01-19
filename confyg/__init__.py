@@ -96,6 +96,8 @@ tested, small, simple and documented.
 import json
 import os
 
+VERSION = '0.1.0'
+
 
 def attributes_values(obj):
     """
