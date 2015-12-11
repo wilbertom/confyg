@@ -149,6 +149,8 @@ The second replaces all hyphens to underscores:
 
 When mashed together we get:
 
+.. code-block:: python
+
     assert composite(upper_case, hyphens_to_underscore)('key') == 'KEY'
     assert composite(upper_case, hyphens_to_underscore)('logger-name') == 'LOGGER_NAME'
     assert composite(upper_case, hyphens_to_underscore)('debug') == 'DEBUG'
