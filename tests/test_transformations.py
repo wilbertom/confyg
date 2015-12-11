@@ -9,3 +9,9 @@ class TestTransformations(TestCase):
             confyg.transformations.upper_case('hello'),
             'HELLO'
         )
+
+    def test_hyphens_to_undersquare(self):
+        self.assertEquals(
+            confyg.transformations.hyphens_to_underscore('hello-world'),
+            'hello_world'
+        )
