@@ -1,35 +1,39 @@
 
 from unittest import TestCase
-from confyg import OsConfyg
 import os
+from confyg import OsConfyg
+from confyg.transformations import upper_case, composite, transformation
+
 
 os.environ['URL'] = 'localhost'
 os.environ['DEBUG'] = 'True'
-
+os.environ['APP_HOST'] = 'localhost'
 
 os.environ['url'] = 'localhost:5000'
 os.environ['debug'] = 'False'
 
 
-class TestOsConfyc(TestCase):
+
+class TestOsConfyg(TestCase):
 
     class Config(OsConfyg):
+        __transformation__ = transformation(
+            upper_case
+        )
+
         URL = 'url'
         DEBUG = 'debug'
 
-
     def test_url_and_debug(self):
-        TestOsConfyc.Config.load()
+        TestOsConfyg.Config.load()
 
-        self.assertEquals(TestOsConfyc.Config.URL, 'localhost')
-        self.assertEquals(TestOsConfyc.Config.DEBUG, 'True')
+        self.assertEquals(TestOsConfyg.Config.URL, 'localhost')
+        self.assertEquals(TestOsConfyg.Config.DEBUG, 'True')
 
 
 class TestOsConfygLower(TestCase):
 
     class Config(OsConfyg):
-        upper_cased = False
-
         URL = 'url'
         DEBUG = 'debug'
 
@@ -38,5 +42,4 @@ class TestOsConfygLower(TestCase):
 
         self.assertEquals(TestOsConfygLower.Config.URL, 'localhost:5000')
         self.assertEquals(TestOsConfygLower.Config.DEBUG, 'False')
-
 

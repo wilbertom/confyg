@@ -93,7 +93,7 @@ We encourage you to read the source code for the project. It is
 tested, small, simple and documented.
 
 You might wonder why we use names like `__source__`,
-`__config_store__`, and `__transformations__` instead of regular names.
+`__config_store__`, and `__transformation__` instead of regular names.
 This is so that they do not clash with the values that we fill in the
 classes.
 
@@ -133,10 +133,10 @@ class Confyg(object):
     """
     __source__ = None
     __config_store__ = None
+    __transformation__ = None
 
     @classmethod
     def load(cls):
-
         cls.__config_store__ = cls.load_store()
 
         for k, vk in confyg_attributes_values(cls):
@@ -149,7 +149,14 @@ class Confyg(object):
 
     @classmethod
     def get(cls, key):
-        return cls.__config_store__[key]
+
+        if cls.__transformation__ is not None:
+            tf = cls.__transformation__
+            key = tf(key)
+
+        return cls.__config_store__[
+            key
+        ]
 
     @classmethod
     def set(cls, key, val):
