@@ -181,7 +181,7 @@ classes.
 import json
 import os
 
-VERSION = '0.1.0'
+VERSION = '0.2.0.0'
 
 
 def attributes_values(obj):
