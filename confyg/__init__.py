@@ -52,7 +52,7 @@ The code doesn't change much:
         __source__ = 'config.json'
 
         SECRET_KEY = 'key'
-        LOGGER_NAME = 'logger_name'
+        LOGGER_NAME = 'logger-name'
         DEBUG = 'debug'
 
     Config.load()
@@ -66,7 +66,7 @@ The code doesn't change much:
 
     {
         "key": "5b6ba13f79129a74a3e819b78e36b922",
-        "logger_name": "web_server",
+        "logger-name": "web_server",
         "debug": true
     }
 
@@ -75,6 +75,86 @@ has a different type. This is because the operating system
 environment only supports strings. Different sources support
 different types. We think this can lead to bugs, and hope
 to fix it.
+
+Transformations
+===============
+
+Transformations change the keys used to get values from the `__source__`.
+They are specified in the `__transformation__` class attribute. They must
+be wrapped around a `transformation` function call.
+
+.. code-block:: python
+
+    from confyg import JsonConfyg
+    from confyg.transformations import upper_case, composite, transformation, \
+        hyphens_to_underscore
+
+
+    class Config(JsonConfyg):
+
+        __source__ = 'config.json'
+
+        SECRET_KEY = 'key'
+        LOGGER_NAME = 'logger-name'
+        DEBUG = 'debug'
+
+    Config.load()
+
+This would work as before but imagine we changed our mind from JSON configuration
+file to a OS environment one. We could easily replace the inheriting `JsonConfyg`
+class to a `OSConfyg` one but things like 'logger-name' are not valid valid
+environment variable identifiers. All we have to do is tweak the keys that we use.
+
+.. code-block:: python
+
+    from confyg import OSConfyg
+    from confyg.transformations import upper_case, composite, transformation, \
+        hyphens_to_underscore
+
+
+    class Config(OSConfyg):
+
+        __source__ = 'config.json'
+
+        __transformation__ = transformation(
+            composite(
+                upper_case,
+                hyphens_to_underscore
+            )
+        )
+
+        SECRET_KEY = 'key'
+        LOGGER_NAME = 'logger-name'
+        DEBUG = 'debug'
+
+    Config.load()
+
+In here we are taking two transformations and mixing them together.
+The first `upper_case` will take a key and turn it into a all upper
+cased string.
+
+.. code-block:: python
+
+    assert upper_case('key') == 'KEY'
+    assert upper_case('logger-name') == 'LOGGER-NAME'
+    assert upper_case('debug') == 'DEBUG'
+
+The second replaces all hyphens to underscores:
+
+.. code-block:: python
+
+    assert hyphens_to_underscore('key') == 'key'
+    assert hyphens_to_underscore('logger-name') == 'logger_name'
+    assert hyphens_to_underscore('debug') == 'debug'
+
+When mashed together we get:
+
+    assert composite(upper_case, hyphens_to_underscore)('key') == 'KEY'
+    assert composite(upper_case, hyphens_to_underscore)('logger-name') == 'LOGGER_NAME'
+    assert composite(upper_case, hyphens_to_underscore)('debug') == 'DEBUG'
+
+Just like that we keep our nice looking keys in our source code while we keep
+them in whatever style the `__source__` prefers.
 
 Interface
 =========
