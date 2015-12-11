@@ -187,15 +187,5 @@ class OsConfyg(DictConfyg):
     The OSConfyg class loads configuration from environment
     variables.
 
-    By default OSConfyg transforms the configuration keys to
-    uppercase. To prevent this behavior set `upper_cased` to
-    False.
-
     """
-    upper_cased = True
-
     __source__ = os.environ
-
-    @classmethod
-    def get(cls, key):
-        return cls.__config_store__[key.upper() if cls.upper_cased else key]
